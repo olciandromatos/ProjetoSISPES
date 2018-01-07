@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<link rel="stylesheet" type="text/css"
+		href="../resources/css/style.css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Tela de Pesquisa</title>
+
+</h:head>
+<h:body>
+	<h:form>
+		<div>
+			<p:menubar>
+				<p:submenu label="Cadastrar">
+					<p:menuitem value="Empresa"
+						url="/pages/cadastro/cadastrar_empresa.xhtml" />
+					<p:menuitem value="Questão"
+						url="/pages/cadastro/cadastrar_questao.xhtml" />
+					<p:menuitem value="Pesquisa"
+						url="/pages/cadastro/cadastrar_pesquisa.xhtml" />
+					<p:menuitem value="Enviar Pesquisa"
+						url="/pages/cadastro/enviar_pesquisa.xhtml" />
+				</p:submenu>
+			</p:menubar>
+		</div>
+	</h:form>
+
+	<h:form id="formListagem">
+		<p:panel header="Gestão de Pesquisa">
+			<p>Informe abaixo os campos para pesquisa:</p>
+			<p:panelGrid id="painelForm" columns="2">
+
+				<p:outputLabel value="Pelo título da pesquisa: " />
+				<p:inputText type="text"
+					value="#{pesquisaBean.pesquisa.tituloDaPesquisa}" />
+
+				<p:outputLabel value="Pela questão: " />
+				<p:inputText />
+			</p:panelGrid>
+
+			<p:dataTable emptyMessage="Nada encontrado"
+				value="#{pesquisaBean.pesquisas}" var="pesquisa" paginator="true"
+				id="tabela">
+
+				<f:facet name="header">
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show()"
+						update=":formCadastro:painel"
+						actionListener="#{pesquisaBean.novo}" />
+					<p:commandButton value="Pesquisar" />
+					<p:commandButton value="Sair" update=":mensagem"
+						actionListener="#{empresaBean.principal}"
+						action="principal?faces-redirect=true" />
+				</f:facet>
+
+				<p:column headerText="Data da Pesquisa">
+					<h:outputText value="#{pesquisa.dataPesquisa}" />
+				</p:column>
+
+				<p:column headerText="Titulo da Pesquisa">
+					<h:outputText value="#{pesquisa.tituloDaPesquisa}" />
+				</p:column>
+
+				<p:column headerText="Descrição">
+					<h:outputText value="#{pesquisa.descricao}" />
+				</p:column>
+
+				<p:column headerText="Questões">
+					<h:outputText />
+				</p:column>
+
+				<p:column headerText="Opções">
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{pesquisaBean.editar}"
+						update=":formCadastro:painel" oncomplete="PF('dialogo').show()">
+						<f:attribute name="itemSelecionado" value="#{pesquisa}" />
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{pesquisaBean.excluir}"
+						update=":mensagem :formListagem:tabela">
+						<p:confirm header="Confirmação"
+							message="Deseja excluir este item?" icon="ui-icon-alert" />
+						<f:attribute name="itemSelecionado" value="#{pesquisa}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+		</p:panel>
+		<p:confirmDialog global="true">
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+	</h:form>
+
+	<p:dialog header="Cadastro de Pesquisa" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+
+		<p:growl id="mensagem" />
+
+		<h:form id="formCadastro">
+			<h:panelGrid id="painel" columns="2">
+				<p:outputLabel value="Codigo:" />
+				<h:outputText value="#{pesquisaBean.pesquisa.codPesquisa}" />
+
+				<p:outputLabel value="Título da Pesquisa*: " />
+				<p:inputText type="text"
+					value="#{pesquisaBean.pesquisa.tituloDaPesquisa}" required="true"
+					requiredMessage="O campo 'Título da Pesquisa' é obrigatorio"
+					size="29" />
+
+				<p:outputLabel value="Descrição: " />
+				<p:inputTextarea cols="30"
+					value="#{pesquisaBean.pesquisa.descricao}">
+				</p:inputTextarea>
+
+				<p:outputLabel value="Data da Pesquisa" />
+				<p:calendar mask="99/99/9999" size="10"
+					value="#{pesquisaBean.pesquisa.dataPesquisa}"  />
+
+			</h:panelGrid>
+			
+			<!-- Campo Questões -->
+			<p:panelGrid columns="5">
+				<p:outputLabel value="Questões*: " />
+				<p:selectOneMenu filter="true" value="#{pesquisaBean.pesquisa}"
+					required="true" requiredMessage="O campo 'Questões' é obrigatorio">
+					<f:selectItem noSelectionOption="true"
+						itemLabel="Selecione um item abaixo"></f:selectItem>
+					<f:selectItems value="#{pesquisaBean.questoes}" var="questao"
+						itemLabel="#{questao.enunciado}" />
+
+				</p:selectOneMenu>
+				
+				<!-- Botão Adicionar -->
+				<p:commandButton update=":formCadastro:painel :mensagem"
+					value="Adicionar" actionListener="#{pesquisaBean.incluirItem}" />
+
+				<p:selectBooleanCheckbox id="ok"
+					value="#{pesquisaBean.relacao.obrigatorio}" />
+				<p:outputLabel value="Obrigatório ?" />
+
+
+			</p:panelGrid>
+
+			<p:dataTable emptyMessage="Nenhuma questão adicionada ainda"
+				 var="pesquisa">
+				<p:column headerText="Questão">
+					<h:outputText  />
+				</p:column>
+
+				<p:column headerText="Obrigatorio">
+					
+				</p:column>
+
+				<p:column headerText="Posição da questão">
+					<p:inputText size="3" />
+				</p:column>
+
+				<p:column headerText="Opção">
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{pesquisaBean.editar}"
+						update=":formCadastro:painel" oncomplete="PF('dialogo').show()">
+						<f:attribute name="itemSelecionado" value="#{pesquisa}" />
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash"
+						update=":mensagem :formListagem:tabela">
+						<p:confirm header="Confirmação"
+							message="Deseja excluir este item?" icon="ui-icon-alert" />
+						<f:attribute name="itemSelecionado" value="#{pesquisa}" />
+					</p:commandButton>
+				</p:column>
+
+				<p:confirmDialog global="true">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
+			</p:dataTable>
+
+			<h:panelGrid columns="2">
+				<p:commandButton value="Salvar" update=":mensagem"
+					actionListener="#{pesquisaBean.cadastrar}" />
+				<p:commandButton value="Sair" oncomplete="PF('dialogo').hide()" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

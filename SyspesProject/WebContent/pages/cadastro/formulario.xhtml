@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<link rel="stylesheet" type="text/css"
+		href="../resources/css/style.css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Formulário</title>
+
+</h:head>
+<h:body>
+
+	<p:growl id="mensagem" />
+
+	<p:panel header="Formulário de questões">
+
+		<p>
+			Bem vindo á pesquisa de <strong>Qualidade de Vida</strong> responda
+			ás questões abaixo e ao final clique em enviar.
+		</p>
+		<h:form id="formCadastro">
+			<h:panelGrid columns="1" id="painel">
+
+				<p:outputLabel value="Questão 1: Qual é o seu sexo ?" />
+				<p:selectOneRadio>
+					<f:selectItem itemLabel="Masculino" />
+					<f:selectItem itemLabel="Feminino" />
+				</p:selectOneRadio>
+
+
+				<p:outputLabel
+					value="Questão 2: Com que frequência você pratica esporte ? " />
+				<p:selectOneMenu>
+
+					<f:selectItem itemLabel="1 a 2 vezes por semana" />
+					<f:selectItem itemLabel="2 a 3 vezes por semana" />
+					<f:selectItem itemLabel="4 a 5 vezes por semana" />
+					<f:selectItem itemLabel="Todos os dias 1 vez por semana" />
+					<f:selectItem itemLabel="Não pratico esporte" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Questão 3: Me fale sobre você " />
+				<p:inputTextarea cols="30" />
+
+				<p:outputLabel
+					value="Questão 3: Com que frequência você toma refrigerante ? " />
+				<p:selectOneMenu>
+
+					<f:selectItem itemLabel="1 a 2 vezes por semana" />
+					<f:selectItem itemLabel="2 a 3 vezes por semana" />
+					<f:selectItem itemLabel="4 a 5 vezes por semana" />
+					<f:selectItem itemLabel="Todos os dias 1 vez por semana" />
+					<f:selectItem itemLabel="Não faço uso de refrigerantes" />
+				</p:selectOneMenu>
+
+				<p:outputLabel
+					value="Questão 4: Com que frequência você pratica esporte ? " />
+				<p:selectOneMenu>
+
+					<f:selectItem itemLabel="1 a 2 vezes por semana" />
+					<f:selectItem itemLabel="2 a 3 vezes por semana" />
+					<f:selectItem itemLabel="4 a 5 vezes por semana" />
+					<f:selectItem itemLabel="Todos os dias 1 vez por semana" />
+					<f:selectItem itemLabel="Não pratico esporte" />
+				</p:selectOneMenu>
+
+				<p:outputLabel
+					value="Questão 5: Com que frequência você faz alguma atividade física ? " />
+				<p:selectOneMenu>
+
+					<f:selectItem itemLabel="1 a 2 vezes por semana" />
+					<f:selectItem itemLabel="2 a 3 vezes por semana" />
+					<f:selectItem itemLabel="4 a 5 vezes por semana" />
+					<f:selectItem itemLabel="Todos os dias 1 vez por semana" />
+					<f:selectItem itemLabel="Não tenho esse hábito" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Questão 6: Você fuma ?" />
+				<p:selectOneRadio>
+					<f:selectItem itemLabel="Sim" />
+					<f:selectItem itemLabel="Não" />
+				</p:selectOneRadio>
+
+				<p:outputLabel
+					value="Questão 5: Com que frequência você faz alguma atividade física ? " />
+				<p:selectOneMenu>
+
+					<f:selectItem itemLabel="1 a 2 vezes por semana" />
+					<f:selectItem itemLabel="2 a 3 vezes por semana" />
+					<f:selectItem itemLabel="4 a 5 vezes por semana" />
+					<f:selectItem itemLabel="Todos os dias 1 vez por semana" />
+					<f:selectItem itemLabel="Não tenho esse hábito" />
+				</p:selectOneMenu>
+
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Enviar" />
+				<p:commandButton value="Fechar" />
+			</h:panelGrid>
+		</h:form>
+	</p:panel>
+
+</h:body>
+</html>

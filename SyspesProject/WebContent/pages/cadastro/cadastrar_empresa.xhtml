@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<link rel="stylesheet" type="text/css"
+		href="../resources/css/style.css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Cadastro de Empresas</title>
+
+</h:head>
+<h:body>
+	<h:form>
+		<div>
+			<p:menubar>
+				<p:submenu label="Cadastrar">
+					<p:menuitem value="Empresa"
+						url="/pages/cadastro/cadastrar_empresa.xhtml" />
+					<p:menuitem value="Questão"
+						url="/pages/cadastro/cadastrar_questao.xhtml" />
+					<p:menuitem value="Pesquisa"
+						url="/pages/cadastro/cadastrar_pesquisa.xhtml" />
+					<p:menuitem value="Enviar Pesquisa"
+						url="/pages/cadastro/enviar_pesquisa.xhtml" />
+				</p:submenu>
+			</p:menubar>
+		</div>
+	</h:form>
+
+	<p:growl id="mensagem" />
+
+	<h:form id="formListagem">
+		<p:panel header="Gestão de empresa">
+
+			<p>Informe abaixo os campos para pesquisa:</p>
+			<h:panelGrid columns="4">
+
+				<p:outputLabel for="nomeFantasia" value="Nome Fantasia: " />
+				<p:inputText id="nomeFantasia" type="text" />
+
+				<p:outputLabel for="unidade" value="Unidade: " />
+				<p:inputText id="unidade" type="text" />
+
+				<p:outputLabel for="instituicao" value="Instituição: " />
+				<p:inputText id="instituicao" type="text" />
+
+				<p:outputLabel for="responsavel" value="Responsável: " />
+				<p:inputText id="responsavel" type="text" />
+
+
+			</h:panelGrid>
+
+			<!-- Listagem  -->
+
+			<p:dataTable emptyMessage="Nenhum arquivo encontrado."
+				paginator="true" value="#{empresaBean.empresas}" var="empresa"
+				rows="5" id="tabela">
+
+				<f:facet name="header">
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show()"
+						actionListener="#{empresaBean.novo}" update=":formCadastro:painel">
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+
+					<p:commandButton value="Pesquisar" />
+
+					<p:commandButton value="Sair" update=":mensagem"
+						actionListener="#{empresaBean.principal}"
+						action="principal?faces-redirect=true" />
+				</f:facet>
+
+				<p:column headerText="CNPJ" sortBy="#{empresa.cnpj}">
+					<h:outputText value="#{empresa.cnpj}" />
+				</p:column>
+
+				<p:column headerText="Nome Fantasia"
+					sortBy="#{empresa.nomeFantasia}">
+					<h:outputText value="#{empresa.nomeFantasia}" />
+				</p:column>
+
+				<p:column headerText="Nº de funcionarios"
+					sortBy="#{empresa.numeroFuncionario}">
+					<h:outputText value="#{empresa.numeroFuncionario}" />
+				</p:column>
+
+				<p:column headerText="Unidade" sortBy="#{empresa.unidade}">
+					<h:outputText value="#{empresa.unidade}" />
+				</p:column>
+
+				<p:column headerText="Instituição" sortBy="#{empresa.instituicao}">
+					<h:outputText value="#{empresa.instituicao}" />
+				</p:column>
+
+				<p:column headerText="UF" sortBy="#{empresa.uf}">
+					<h:outputText value="#{empresa.uf}" />
+				</p:column>
+
+				<p:column headerText="Responsável" sortBy="#{empresa.responsavel}">
+					<h:outputText value="#{empresa.responsavel}" />
+				</p:column>
+
+				<p:column headerText="E-mail" sortBy="#{empresa.email}">
+					<h:outputText value="#{empresa.email}" />
+				</p:column>
+				<p:column headerText="Opções">
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{empresaBean.editar}"
+						update=":formCadastro:painel" oncomplete="PF('dialogo').show()">
+						<f:attribute name="itemSelecionado" value="#{empresa}" />
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{empresaBean.excluir}"
+						update=":mensagem :formListagem:tabela">
+						<p:confirm header="Confirmação"
+							message="Deseja excluir este item?" icon="ui-icon-alert" />
+						<f:attribute name="itemSelecionado" value="#{empresa}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</p:panel>
+	</h:form>
+
+	<p:dialog header="Empresa - Cadastro" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+		<h:form id="formCadastro">
+			<h:panelGrid columns="2" id="painel">
+				<p:outputLabel for="cnpj" value="CNPJ: " />
+				<p:inputMask id="cnpj" type="text"
+					value="#{empresaBean.empresa.cnpj}" required="true"
+					requiredMessage="O campo 'CNPJ' é obrigatorio" maxlength="30"
+					mask="99.999.999/0001-99">
+
+				</p:inputMask>
+
+				<p:outputLabel for="nomeFantasia" value="Nome Fantasia: " />
+				<p:inputMask id="nomeFantasia" type="text"
+					value="#{empresaBean.empresa.nomeFantasia}" required="true"
+					requiredMessage="O campo 'Nome Fantasia' é obrigatório " />
+
+				<p:outputLabel for="funcionario" value="Nº de Funcionarios: " />
+				<p:inputText id="funcionario" type="text"
+					value="#{empresaBean.empresa.numeroFuncionario}" required="true"
+					requiredMessage="O campo 'Nº de Funcionario' é obrigatorio"
+					maxlength="5" size="10"
+					validatorMessage="Informe um valor correto para o campo 'Nº de Funcionario'">
+					<f:validateLongRange minimum="0" maximum="20000"></f:validateLongRange>
+				</p:inputText>
+
+				<p:outputLabel for="unidade" value="Unidade: " />
+				<p:inputText id="unidade" type="text"
+					value="#{empresaBean.empresa.unidade}" />
+
+				<p:outputLabel for="instituicao" value="Instituição: " />
+				<p:inputText id="instituicao" type="text"
+					value="#{empresaBean.empresa.instituicao}" required="true"
+					requiredMessage="O campo 'Instituição é obrigatorio" />
+
+				<p:outputLabel for="uf" value="UF: " />
+				<p:selectOneMenu id="uf" filter="true"
+					value="#{empresaBean.empresa.uf}" required="true"
+					requiredMessage="O campo 'UF' é obrigatorio">
+					<f:selectItem itemDisabled="true" itemLabel="Selecione um estado"></f:selectItem>
+					<f:selectItems value="#{empresaBean.estadoList}" var="estado"
+						itemLabel="#{estado.nome}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="responsavel" value="Responsável: " />
+				<p:inputText id="responsavel" type="text"
+					value="#{empresaBean.empresa.responsavel}" required="true"
+					rendered="true"
+					requiredMessage="O campo 'Responsável' é obrigatorio" />
+
+				<p:outputLabel for="email" value="E-mail: " />
+				<p:inputText id="email" type="text"
+					value="#{empresaBean.empresa.email}" required="true"
+					rendered="true" requiredMessage="O campo 'E-mail' é obrigatorio"
+					validatorMessage="Formato de Email invalido!">
+
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+
+				</p:inputText>
+
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Salvar"
+					update=":formCadastro:painel :mensagem :formListagem:tabela"
+					actionListener="#{empresaBean.cadastrar}" />
+				<p:commandButton value="Sair" oncomplete="PF('dialogo').hide()" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</html>

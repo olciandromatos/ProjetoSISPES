@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Insert title here</title>
+</h:head>
+<h:body>
+
+	<h:form>
+		<div>
+			<p:menubar>
+				<p:submenu label="Cadastrar">
+					<p:menuitem value="Empresa"
+						url="/pages/cadastro/cadastrar_empresa.xhtml" />
+					<p:menuitem value="Questão"
+						url="/pages/cadastro/cadastrar_questao.xhtml" />
+					<p:menuitem value="Pesquisa"
+						url="/pages/cadastro/cadastrar_pesquisa.xhtml" />
+					<p:menuitem value="Estado"
+						url="/pages/cadastro/cadastrar_estado.xhtml" />
+				</p:submenu>
+
+			</p:menubar>
+		</div>
+	</h:form>
+	<p>
+		<h1>Syspes - Sistema de Pesquisas e Estatísticas</h1>
+	</p>
+	<p:panel header="Empresa">
+		<p:dataTable emptyMessage="Nenhum dado"
+			value="#{empresaBean.empresas}" var="empresa" rows="5"
+			paginator="true">
+
+			<p:column headerText="Código">
+				<h:outputText value="#{empresa.codEmpresa}" />
+			</p:column>
+
+			<p:column headerText="CNPJ">
+				<h:outputText value="#{empresa.cnpj}" />
+			</p:column>
+
+			<p:column headerText="Nome Fantasia">
+				<h:outputText value="#{empresa.nomeFantasia}" />
+			</p:column>
+
+			<p:column headerText="Nº de funcionarios">
+				<h:outputText value="#{empresa.numeroFuncionario}" />
+			</p:column>
+
+			<p:column headerText="Unidade">
+				<h:outputText value="#{empresa.unidade}" />
+			</p:column>
+
+			<p:column headerText="Instituição">
+				<h:outputText value="#{empresa.instituicao}" />
+			</p:column>
+
+			<p:column headerText="UF">
+				<h:outputText value="#{empresa.uf}" />
+			</p:column>
+
+			<p:column headerText="Responsável">
+				<h:outputText value="#{empresa.responsavel}" />
+			</p:column>
+
+			<p:column headerText="E-mail">
+				<h:outputText value="#{empresa.email}" />
+			</p:column>
+
+		</p:dataTable>
+	</p:panel>
+
+	<p:panel header="Pesquisa">
+		<p:dataTable emptyMessage="Nada encontrado"
+			value="#{pesquisaBean.pesquisas}" var="pesquisa" rows="5"
+			paginator="true">
+
+			<p:column headerText="Codigo">
+				<h:outputText value="#{pesquisa.codPesquisa}" />
+			</p:column>
+
+			<p:column headerText="Data da Pesquisa">
+				<h:outputText value="#{pesquisa.dataPesquisa}" />
+			</p:column>
+
+			<p:column headerText="Titulo da Pesquisa">
+				<h:outputText value="#{pesquisa.tituloDaPesquisa}" />
+			</p:column>
+
+			<p:column headerText="Descrição">
+				<h:outputText value="#{pesquisa.descricao}" />
+			</p:column>
+
+			<p:column headerText="Questôes">
+				<h:outputText />
+			</p:column>
+
+		</p:dataTable>
+	</p:panel>
+	<p:panel header="Questao">
+		<p:dataTable emptyMessage="Nenhum dado" value="#{questoesBean.lista}"
+			var="listar" rows="5" paginator="true">
+
+			<p:column headerText="Código">
+				<h:outputText value="#{listar.codQuestoes}" />
+			</p:column>
+
+			<p:column headerText="Tipo de Questão">
+				<h:outputText value="#{listar.tipo}" />
+			</p:column>
+
+			<p:column headerText="Enunciado">
+				<h:outputText value="#{listar.enunciado}" />
+			</p:column>
+
+			<p:column headerText="Opções">
+
+			</p:column>
+
+			<p:column headerText="Observações">
+				<h:outputText value="#{listar.observacoes}" />
+			</p:column>
+
+		</p:dataTable>
+	</p:panel>
+
+	<p:panel header="Registro do Usuario">
+		<p:dataTable emptyMessage="Nenhum dado" value="#{registroUsuarioBean.registros}" var="registro">
+
+			<p:column headerText="Código">
+				<h:outputText value="#{registro.codRegistro}" />
+			</p:column>
+
+			<p:column headerText="IP do Usuario">
+				<h:outputText value="#{registro.ipUsuario}" />
+			</p:column>
+
+			<p:column headerText="Data e Hora do Cadastro">
+				<h:outputText value="#{registro.dataCadastro}" />
+			</p:column>
+
+			<p:column headerText="Alternativas">
+				<h:outputText value="#{registro.respostas}" />
+			</p:column>
+
+			<p:column headerText="Código de Questões">
+				<h:outputText value="#{registro.questoes}" />
+			</p:column>
+
+			<p:column headerText="Código de Alternativa">
+				<h:outputText value="#{registro.alternativa}" />
+			</p:column>
+
+		</p:dataTable>
+	</p:panel>
+</h:body>
+</html>

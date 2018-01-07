@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<h:outputScript library="js" name="script.js" />
+	<title>Tela de Questao</title>
+
+</h:head>
+<h:body>
+	<!--  -->
+	<h:form>
+		<div>
+			<p:menubar>
+				<p:submenu label="Cadastrar">
+					<p:menuitem value="Empresa"
+						url="/pages/cadastro/cadastrar_empresa.xhtml" />
+					<p:menuitem value="Questão"
+						url="/pages/cadastro/cadastrar_questao.xhtml" />
+					<p:menuitem value="Pesquisa"
+						url="/pages/cadastro/cadastrar_pesquisa.xhtml" />
+					<p:menuitem value="Enviar Pesquisa"
+						url="/pages/cadastro/enviar_pesquisa.xhtml" />
+				</p:submenu>
+			</p:menubar>
+		</div>
+	</h:form>
+
+	<p:growl id="mensagem" />
+
+	<h:form id="formListagem">
+		<p:panel header="Gestão de questões">
+
+			<p>Informe abaixo os campos para pesquisa:</p>
+			<h:panelGrid columns="2" id="painelForm">
+				<p:outputLabel value="Pelo tipo da questão: "></p:outputLabel>
+				<p:selectCheckboxMenu label="Tipo">
+
+					<f:selectItem itemLabel="Selecione um item abaixo" itemValue=""></f:selectItem>
+					<f:selectItem itemLabel="Verdadeiro/Falso"
+						itemValue="VERDADEIRO_FALSO" />
+					<f:selectItem itemLabel="Multipla Escolha Simples"
+						itemValue="MULTIPLA_ESCOLHA_SIMPLES" />
+					<f:selectItem itemLabel="Multipla Escolha Composta"
+						itemValue="MULTIPLA_ESCOLHA_COMPOSTA" />
+					<f:selectItem itemLabel="Digitação Livre"
+						itemValue="DIGITACAO_LIVRE" />
+				</p:selectCheckboxMenu>
+
+				<p:outputLabel value="Pelo texto do enunciado:"></p:outputLabel>
+				<p:inputText value="#{questaoBean.questao.enunciado}" />
+
+				<p:outputLabel value="Pela Opção do enunciado :"></p:outputLabel>
+				<p:inputText />
+
+
+			</h:panelGrid>
+
+
+
+			<p:dataTable emptyMessage="Nenhum arquivo encontrado."
+				value="#{questaoBean.lista}" var="listar" paginator="true" rows="5"
+				id="tabela">
+
+				<f:facet name="header">
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show()"
+						actionListener="#{questaoBean.novo}" update=":formCadastro:painel" >
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+					
+					<p:commandButton value="Pesquisar" />
+					
+					<p:commandButton value="Sair" update=":mensagem"
+						actionListener="#{empresaBean.principal}"
+						action="principal?faces-redirect=true" />
+				</f:facet>
+
+				<p:column headerText="Tipo de Questão" sortBy="#{listar.tipo}">
+					<h:outputText value="#{listar.tipo}" />
+				</p:column>
+
+				<p:column headerText="Enunciado" sortBy="#{listar.enunciado}">
+					<h:outputText value="#{listar.enunciado}" />
+				</p:column>
+
+
+				<p:column headerText="Questões do Enunciado"
+					sortBy="#{listar.observacoes}">
+					<h:outputText value="#{listar.observacoes}" />
+				</p:column>
+
+				<p:column headerText="Opções">
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{questaoBean.editar}"
+						update=":formCadastro:painel" oncomplete="PF('dialogo').show()">
+						<f:attribute name="itemSelecionado" value="#{listar}" />
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{questaoBean.excluir}"
+						update=":mensagem :formListagem:tabela">
+						<p:confirm header="Confirmação"
+							message="Deseja excluir este item?" icon="ui-icon-alert" />
+						<f:attribute name="itemSelecionado" value="#{listar}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</p:panel>
+	</h:form>
+
+	<p:dialog header="Cadastro de Questão" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+		<h:form id="formCadastro">
+			<h:panelGrid columns="2" id="painel">
+				<p:outputLabel value="Codigo: "></p:outputLabel>
+				<h:outputText value="#{questaoBean.questao.codQuestoes}" />
+
+				<p:outputLabel value="Tipo de Questão: "></p:outputLabel>
+				<p:selectOneMenu value="#{questaoBean.questao.tipo}" id="menu"
+					required="true" requiredMessage="O campo 'Tipo' é obrigatório">
+
+					<f:selectItem itemLabel="Selecione um item abaixo" itemValue="" />
+					<!--  <f:selectItem itemLabel="Verdadeiro / Falso"
+						itemValue="VERDADEIRO_FALSO" />
+					<f:selectItem itemLabel="Multipla Escolha Simples"
+						itemValue="MULTIPLA_ESCOLHA_SIMPLES" />
+					<f:selectItem itemLabel="Multipla Escolha Composta"
+						itemValue="MULTIPLA_ESCOLHA_COMPOSTA" />
+					<f:selectItem itemLabel="Digitação Livre"
+						itemValue="DIGITAÇÃO_LIVRE" /> -->
+					<f:selectItems value="#{questaoBean.tipos}" var="tipo"
+						itemLabel="#{tipo}" itemValue="#{tipo}" />
+					<f:ajax render="input" />
+
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Enunciado*:" />
+				<p:inputText value="#{questaoBean.questao.enunciado}"
+					required="true" requiredMessage="O campo 'Enunciado' é obrigatorio"
+					size="30" />
+
+				<h:panelGroup id="input">
+					<p:panelGrid>
+						<p:outputLabel value="Opção:"
+							rendered="#{questaoBean.questao.tipo eq 'MULTIPLA_ESCOLHA_SIMPLES' or questaoBean.questao.tipo eq 'MULTIPLA_ESCOLHA_COMPOSTA'}" />
+						<p:inputText value="#{questaoBean.alternativa.textoDaAlternativa}"
+							rendered="#{questaoBean.questao.tipo eq 'MULTIPLA_ESCOLHA_SIMPLES' or questaoBean.questao.tipo eq 'MULTIPLA_ESCOLHA_COMPOSTA'}" />
+						<p:commandButton
+							rendered="#{questaoBean.questao.tipo eq 'MULTIPLA_ESCOLHA_SIMPLES' or questaoBean.questao.tipo eq 'MULTIPLA_ESCOLHA_COMPOSTA'}"
+							value="OK" />
+					</p:panelGrid>
+				</h:panelGroup>
+
+			</h:panelGrid>
+
+			<h:panelGrid columns="2">
+				<p:commandButton value="Salvar"
+					update=":mensagem :formCadastro:painel"
+					actionListener="#{questaoBean.cadastrar}" />
+				<p:commandButton value="Sair" oncomplete="PF('dialogo').hide()" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

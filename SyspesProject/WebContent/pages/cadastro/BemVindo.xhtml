@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Tela de Empresa</title>
+</h:head>
+<h:body>
+	
+	<p:panel  header="Importante !">
+		<p>Prezado sr(a) Olciandro<h:outputText value="#{empresaBean.empresa.responsavel}" /> <br />
+		Enviamos o link abaixo, para o preenchimento da pesquisa que<h:outputText value="#{pesquisaBean.pesquisa.tituloDaPesquisa}" />
+		estará disponível <br /> de 22/06/2017<h:outputText value="#{enviarPesquisaBean.empresaComPesquisa.dataVigenciaInicial}" /> até 22/07/2017<h:outputText value="#{enviarPesquisaBean.empresaComPesquisa.dataVigenciaFinal}" />
+		<h:outputText value="#{enviarPesquisaBean.empresaComPesquisa.observacoesExtras}" /> <br />
+		Atenciosamente Wilson Amaral </p>
+		
+		<h:link target="formulario.xhtml" value="formularioGerado/formulario.xhtml" outcome="formulario.xhtml" /> <br />
+		
+		
+		<br /><br />
+		<p:commandButton action="#{enviarPesquisaBean.voltar}" value="Voltar" />
+	</p:panel>
+</h:body>
+</html>

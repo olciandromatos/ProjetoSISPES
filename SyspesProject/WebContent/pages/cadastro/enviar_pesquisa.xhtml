@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<h:outputScript library="js" name="script.js" />
+	<title>Tela de Questao</title>
+
+</h:head>
+<h:body>
+	<!--  -->
+	<h:form>
+		<div>
+			<p:menubar>
+				<p:submenu label="Cadastrar">
+					<p:menuitem value="Empresa"
+						url="/pages/cadastro/cadastrar_empresa.xhtml" />
+					<p:menuitem value="Questão"
+						url="/pages/cadastro/cadastrar_questao.xhtml" />
+					<p:menuitem value="Pesquisa"
+						url="/pages/cadastro/cadastrar_pesquisa.xhtml" />
+					<p:menuitem value="Estado"
+						url="/pages/cadastro/cadastrar_estado.xhtml" />
+				</p:submenu>
+			</p:menubar>
+		</div>
+	</h:form>
+
+	<p:growl id="mensagem" />
+
+	<h:form id="form">
+		<p:panel header="Enviar Pesquisa">
+
+
+			<h:panelGrid columns="2" id="painelForm">
+				<p:outputLabel value="Empresa: "></p:outputLabel>
+				<p:selectOneMenu 
+					requiredMessage="O campo 'UF' é obrigatorio">
+					<f:selectItem itemDisabled="true" itemLabel="Selecione uma empresa"></f:selectItem>
+					<f:selectItems value="#{empresaBean.empresas}" var="e"
+						itemLabel="#{e.nomeFantasia}" />
+						
+				</p:selectOneMenu>
+				<p:outputLabel value="Data de vigência:"></p:outputLabel>
+				<p:panelGrid columns="3">
+
+					<p:calendar /> a
+					<p:calendar />
+				</p:panelGrid>
+
+				<p:outputLabel value="Pesquisa :"></p:outputLabel>
+				<p:selectOneMenu
+					requiredMessage="O campo 'UF' é obrigatorio">
+					<f:selectItem itemDisabled="true"
+						itemLabel="Selecione uma pesquisa"></f:selectItem>
+					<f:selectItems value="#{pesquisaBean.pesquisas}" var="p"
+						itemLabel="#{p.tituloDaPesquisa}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Observações extras :"></p:outputLabel>
+				<p:inputTextarea cols="52" />
+
+			</h:panelGrid>
+
+			<h:panelGrid columns="2">
+				<p:commandButton value="Enviar" update=":mensagem :form:painelForm" action="#{enviarPesquisaBean.bemvindo}"/>
+				<p:commandButton value="Sair" oncomplete="PF('dialogo').hide()" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+
+</h:body>
+</html>
