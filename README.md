@@ -6,4 +6,4 @@ Sistema de estatística e pesquisa, projeto de TCC na faculdade UDF usando JSF.
 - JPA(HIBERNATE)
 - JSF
 - Primefaces
-- Postgres ou Mysql
+- Postgres ou Mysql, caso queira usar outra, precisa baixar a dependência.
